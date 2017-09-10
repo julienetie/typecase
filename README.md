@@ -85,7 +85,7 @@ For everything else, the native language should be more than sufficient.
 - Although Array is an object we return `'array'` rather than `'objectArray'` because it is not an intended object unlike i.e. `new Boolean()`. 
 - `NaN` is an invalid type-of `'number'`, because this is problematic `'NaN'` is returned instead.
 - `'objectObject'` is returned as `'object'` for simplicity.
-- `null` is returned as a string of its self.
+- `null` is returned as a string of its self because ` typeof null // object` is problematic and a well known mistake.
 - `'empty'` and `'zero'` also check for non-existence.
 
 MIT (c) 2017 Julien Etienne.
