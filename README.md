@@ -34,8 +34,12 @@ typeIs(value, 'zero')
 ```
 
 ## Type
+typeIs allows you to see the type for what they are. If applicable, 
+the object wrapper is shown by the prefix 'object'.
+
 ```javascript
 typeIs(value)
+
 // 'Hello World!' === 'string'
 // 1000 === 'number'
 // [1,2,3] === 'array'
@@ -48,9 +52,40 @@ typeIs(value)
 // new Array() === 'array'
 // new WeakMap() === 'objectWeakMap'
 // new Number() === 'objectNumber'
+// new Function() === 'function'
 // undefined === 'undefined'
 // null === 'null'
 // NaN === 'NaN'
 // {} === 'object'
-// <All other objects> === 'object'
+// document.createElement('div') === objectHTMLDivElement
+// document.body === objectHTMLBodyElement
+// <other objectObjects> === 'object'
 ```
+
+## What this library is not
+
+This library does not check if a value is an instance of another.
+Simply check if an object is an element using:
+
+```javascript 
+someDOMElement instanceof Element // true
+```
+Alternatively..
+```javascript 
+ typeIs(someDOMElement).includes('Element') // true
+```
+
+typeIs does not aim to tell you the specific type of object it may be,
+this is usually not important since you would likely need to check for 
+existing properties, and if not then native properties will be sufficient.
+
+For everything else, the native language should be more than sufficient.
+
+## Explanation.
+- Although Array is an object we return `'array'` rather than `'objectArray'` because it is not an intended object unlike i.e. `new Boolean()`. 
+- `NaN` is an invalid type-of `'number'`, because this is problematic `'NaN'` is returned instead.
+- `'objectObject'` is returned as `'object'` for simplicity.
+- `null` is returned as a string of its self.
+- `'empty'` and `'zero'` also check for non-existence.
+
+MIT (c) 2017 Julien Etienne.
