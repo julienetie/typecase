@@ -1,36 +1,30 @@
-# typeis
-A tiny non-browser specific type library 
+# type
+Is a type helper library for managing all types.  
 
-Types seem to be a very mis-understood subject in JavaScript.
-Although there area a few flaws we tend to mistake many of the
-advantages in JavaScript as flaws which is not always the case.
-And even in cases where they are, it's quite easy to coerce for
-better predictability.
-
-This is not a one size fits all library, this is a helper for 
-common usage with types. 
+Types seem to be a very mis-understood subject in JavaScript and can sometimes be hard to manage.
+**type** makes it easier to manage Javascript types without unecessary complexities. 
 
 ## Exist
 ```javascript
 // Value is not null and not undefined.
-typeIs(value, 'exist')
+type(value).exist
 // Does not exist.
-// !typeIs(value, 'exist')
+// !type(value).exist
 
 ```
 ## Empty
 ```javascript
 // Value is not null, not undefined and not an emppty string ''.
-typeIs(value, 'empty')
+type(value)empty
 // Is not empty.
-// !typeIs(value, 'empty')
+// !type(value).empty
 ```
 ## Zero
 ```javascript
 // Value is not null, not undefined and not equal to 0.
-typeIs(value, 'zero')
+type(value).zero
 // Is not zero.
-// !typeIs(value, 'zero')
+// !type(value).zero
 ```
 
 ## Type
@@ -38,7 +32,7 @@ typeIs allows you to see the type for what they are. If applicable,
 the object wrapper is shown by the prefix 'object'.
 
 ```javascript
-typeIs(value)
+type(value).<type>
 
 // 'Hello World!' === 'string'
 // 1000 === 'number'
@@ -64,7 +58,7 @@ typeIs(value)
 
 ## What this library is not
 
-This library does not check if a value is an instance of another.
+This library does not check if a value is an instance of another, use the instanceof operator
 Simply check if an object is an element using:
 
 ```javascript 
