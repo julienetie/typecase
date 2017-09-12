@@ -1,5 +1,5 @@
-# type
-Is a type helper library for managing all types.  
+# typewriter
+Is a type helper library that provides the correct type of a value without overcomplicating the type system.  
 
 Types seem to be a very mis-understood subject in JavaScript and can sometimes be hard to manage.
 **type** makes it easier to manage Javascript types without unecessary complexities. 
