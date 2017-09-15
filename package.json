@@ -1,5 +1,5 @@
 {
-  "name": "typewriter",
+  "name": "typecast",
   "version": "1.0.1",
   "description": "A dynamic type checker for JavaScript",
   "main": "index.js",
