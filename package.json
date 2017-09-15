@@ -1,6 +1,6 @@
 {
   "name": "typecase",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A dynamic type checker for JavaScript",
   "main": "index.js",
   "repository": "git@github.com:julienetie/typecase.git",
