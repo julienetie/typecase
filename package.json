@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A dynamic type checker for JavaScript",
   "main": "index.js",
-  "repository": "git@github.com:julienetie/typewriter.git",
+  "repository": "git@github.com:julienetie/typecase.git",
   "author": "Julien Etienne <j8@protonmail.ch>",
   "license": "MIT"
 }
