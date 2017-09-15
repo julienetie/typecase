@@ -1,5 +1,5 @@
 {
-  "name": "typecast",
+  "name": "typecase",
   "version": "1.0.1",
   "description": "A dynamic type checker for JavaScript",
   "main": "index.js",
