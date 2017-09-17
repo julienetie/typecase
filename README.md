@@ -100,11 +100,17 @@ type(document.body).objectHTMLBodyElement                   // true | undefined
 
 ## .some()
 Returns true if at least one of the types validate as expected. If not returns false.
+If the expected types are of an equivalent amount to the values supplied, each type
+and value will be compared in order. If not they will be compared sporadically.
+
 ```javascript
-type([value, value, value, value]).some(['string','objectDate','true','false'])
+type(value, value, value, value).some('string','objectDate', 'number', 'array')
+
+type(value, value, value, value, value, value).some('string','objectDate')
 ```
 ## .every()
 Returns true if all types validate as expected. If not returns false.
+Values and expectedTypes must be of equal length.
 ```javascript
 type([value, value, value, value]).every(['string','objectDate','true','false'])
 ```
