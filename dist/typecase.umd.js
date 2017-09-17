@@ -127,76 +127,154 @@ var asyncGenerator = function () {
   };
 }();
 
-function type(value) {
-  var typeofWrapper = {
-    string: false,
-    number: false,
-    boolean: false,
-    function: false,
-    symbol: false,
-    undefined: false,
-    object: false,
-    NaN: false,
-    null: false,
-    array: false
-  };
+// https://github.com/julienetie/typecase
+// (c) Julien Etienne 2017
+// A type checker for dynamically typed JavaScript
+// @Update comments, 
+function type() {
+    for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+        values[_key] = arguments[_key];
+    }
 
-  var isNullorUndefined = value === null || value === undefined;
+    var value = values[0];
 
-  // Check the value is not null or undefined.
-  var states = {
-    exist: !isNullorUndefined,
-    empty: isNullorUndefined || value === '',
-    zero: isNullorUndefined || value === 0
-  };
+    // Wrapper to store the .is parameter.
+    var isValue = {};
 
-  var assign = function assign(values) {
-    return Object.assign(states, typeofWrapper, values);
-  };
+    // Default falsy validations for common types.
+    var commonTypes = {
+        string: false,
+        number: false,
+        boolean: false,
+        function: false,
+        symbol: false,
+        undefined: false,
+        object: false,
+        NaN: false,
+        null: false,
+        array: false,
+        regExp: false,
+        objectString: false,
+        objectNumber: false,
+        objectBoolean: false,
+        objectDate: false,
+        objectMap: false,
+        objectWeakMap: false
+    };
 
-  var typeOfValue = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-  // If type is a number, check if it is NAN or a valid number type.
-  if (typeOfValue === 'number') {
-    var typeOfNumber = Object.is(Number(value), NaN) ? 'NaN' : typeOfValue;
-    var numberWrapper = {};
-    numberWrapper[typeOfNumber] = true;
-    return assign(numberWrapper);
-  }
+    // Checks existance.
+    var isNullorUndefined = value === null || value === undefined;
 
-  // Check if the type is not an instance of Object. 
-  // The constructor may still be an instance of Object e.g. String.
-  if (typeOfValue !== 'object') {
-    typeofWrapper[typeOfValue] = true;
-    return assign(typeofWrapper);
-  }
+    // Queries the values state for common usage.
+    var states = {
+        exist: !isNullorUndefined,
+        empty: isNullorUndefined || value === '',
+        zero: isNullorUndefined || value === 0,
+        true: !!value === true,
+        false: !!value === false
+    };
 
-  // If value is null, for convenience return type as null.
-  // Rather than objectNull.
-  if (value === null) {
-    var valueType = new String(value);
-    valueType[valueType.valueOf()] = true;
-    return assign(valueType);
-  }
+    // Methods to expose for mulit values.
+    var methods = values.length > 1 ? {
+        every: function every() {
+            for (var _len2 = arguments.length, expectedTypes = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                expectedTypes[_key2] = arguments[_key2];
+            }
 
-  // Check if value is an array as type 'array'.
-  if (Array.isArray(value)) {
-    var arrayWrapper = {};
-    arrayWrapper.array = true;
-    return assign(arrayWrapper);
-  }
+            if (values.length !== expectedTypes.length) {
+                console.error('typecase type(): Values and expectedTypes must be of equal length');
+            }
 
-  // Get the object wrapper and valueOf type.
-  var objectTypeDefinition = {}.toString.call(value);
+            return values.every(function (value, i) {
+                return type(value)[expectedTypes[i]];
+            });
+            //console.log(expectedTypes);
+        },
+        some: function some() {
+            for (var _len3 = arguments.length, expectedTypes = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                expectedTypes[_key3] = arguments[_key3];
+            }
 
-  // Create the object name.
-  var objectType = objectTypeDefinition.slice(0, objectTypeDefinition.length - 1).replace(/[\[\]\s]/g, '');
+            return values.some(function (value, i) {
+                if (expectedTypes.length < values.length) {
+                    return expectedTypes.some(function (expectedType) {
+                        return type(value)[expectedType];
+                    });
+                }
+                return type(value)[expectedTypes[i]];
+            });
+            //console.log(expectedTypes);
+        }
+    } : {};
 
-  var objectWrapper = {};
-  var objectParam = objectType === 'objectObject' ? 'object' : objectType;
-  objectWrapper[objectParam] = true;
+    // Writes value/s over defaults.
+    // In order.
+    var assign = function assign(values) {
+        return Object.assign(states, commonTypes, isValue, methods, values);
+    };
 
-  // Return the object<type> value if an object is wrapped by an object.
-  return assign(objectWrapper);
+    // Checks the typeof value.
+    var typeOfValue = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+
+    // If type is a number, check if it is NAN or a valid number type.
+    if (typeOfValue === 'number') {
+        var typeOfNumber = Object.is(Number(value), NaN) ? 'NaN' : typeOfValue;
+        var numberWrapper = {};
+        isValue.is = typeOfNumber;
+        numberWrapper[typeOfNumber] = true;
+        return assign(numberWrapper);
+    }
+
+    // Check if the type is not an instance of Object. 
+    // The constructor may still be an instance of Object e.g. String.
+    if (typeOfValue !== 'object') {
+        isValue.is = typeOfValue;
+        commonTypes[typeOfValue] = true;
+        return assign(commonTypes);
+    }
+
+    // If value is null, for convenience return type as null.
+    // Rather than objectNull.
+    if (value === null) {
+        var valueType = new String(value);
+        var nullString = valueType.valueOf();
+        isValue.is = nullString;
+        valueType[nullString] = true;
+        return assign(valueType);
+    }
+
+    // Check if value is an array as type 'array'.
+    if (Array.isArray(value)) {
+        var arrayWrapper = {};
+        isValue.is = 'array';
+        arrayWrapper.array = true;
+        return assign(arrayWrapper);
+    }
+
+    // Get the object wrapper and valueOf type.
+    var objectTypeDefinition = {}.toString.call(value);
+
+    // Create the object name
+    // Simplifies objectObject as object.
+
+
+    var objectType = objectTypeDefinition.slice(0, objectTypeDefinition.length - 1).replace(/[\[\]\s]/g, '');
+
+    // An empty object to challenge the existing defaults.
+    var objectWrapper = {};
+
+    // Return regExp rather than objectRegExp.
+    if (objectType === 'objectRegExp') {
+        isValue.is = 'regExp';
+        objectWrapper.regExp = true;
+        return assign(objectWrapper);
+    }
+
+    // Return the object<type> value if an object is wrapped by an object.
+    var objectParam = objectType === 'objectObject' ? 'object' : objectType;
+    isValue.is = objectParam;
+    objectWrapper[objectParam] = true;
+    return assign(objectWrapper);
 }
 
 return type;
