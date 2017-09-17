@@ -21,8 +21,7 @@ function type(value) {
     zero: isNullorUndefined || value === 0
   };
 
-
-	const assign = values => Object.assign(states, typeofWrapper, values);
+  const assign = values => Object.assign(states, typeofWrapper, values);
 
   const typeOfValue = typeof value;
   // If type is a number, check if it is NAN or a valid number type.
@@ -56,12 +55,10 @@ function type(value) {
   }
 
   // Get the object wrapper and valueOf type.
-  const objectTypeDefinition = ({}).toString.call(value);
+  const objectTypeDefinition = {}.toString.call(value);
 
   // Create the object name.
-  const objectType = objectTypeDefinition
-    .slice(0, objectTypeDefinition.length - 1)
-    .replace(/[\[\]\s]/g, '');
+  const objectType = objectTypeDefinition.slice(0, objectTypeDefinition.length - 1).replace(/[\[\]\s]/g, '');
 
   const objectWrapper = {};
   const objectParam = objectType === 'objectObject' ? 'object' : objectType;

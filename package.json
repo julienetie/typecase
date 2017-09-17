@@ -5,5 +5,23 @@
   "main": "index.js",
   "repository": "git@github.com:julienetie/typecase.git",
   "author": "Julien Etienne <j8@protonmail.ch>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/rollup -c ./rollup/config.es.js && ./node_modules/.bin/rollup -c ./rollup/config.umd.js "
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "eslint": "^4.7.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-eslint": "^4.0.0",
+    "rollup-plugin-node-resolve": "^3.0.0"
+  }
 }
