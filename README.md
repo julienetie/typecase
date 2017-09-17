@@ -120,7 +120,7 @@ Reveals the type as a string.
 type(10000).is // "number"
 ```
 
-## .raw
+## .raw (TBA)
 Reveals the raw object-type without sugar coating as a string.
 ```javascript
 type(null).raw // "[object Null]"
