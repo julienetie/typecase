@@ -1,14 +1,32 @@
 {
   "name": "typecase",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A dynamic type checker for JavaScript",
-  "main": "index.js",
+  "main": "dist/typecase.umd.js",
+  "jsnext:main": "dist/typecase.js",
   "repository": "git@github.com:julienetie/typecase.git",
   "author": "Julien Etienne <j8@protonmail.ch>",
   "license": "MIT",
   "scripts": {
     "build": "./node_modules/.bin/rollup -c ./rollup/config.es.js && ./node_modules/.bin/rollup -c ./rollup/config.umd.js "
   },
+   "keywords": [
+   	"dynamic type checker",
+   	"types",
+   	"object types",
+   	"element types",
+   	"check type",
+   	"types es6"
+    "typeis",
+    "type is",
+    "type check",
+    "type checker",
+    "javascript type checker",
+    "type validation",
+    "smart type check",
+    "typeof",
+    "type of"
+  ],
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-es2015-rollup": "^3.0.0",
