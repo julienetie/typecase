@@ -3,7 +3,7 @@
 
 Typecase Is a tiny but powerful library that aims to provide a useful type of a given value. It is intended for standard dynamically typed JavaScript.
 
-Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between differnt types from the perspective of the JavaScript language and common usage rather than other static typed languages.
+Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between different types from the perspective of the JavaScript language and common usage rather than other static typed languages.
 
 ## .true
 ```javascript
@@ -153,7 +153,7 @@ For everything else kind-of type related, the native language should be more tha
 
 - Although `NaN` is an invalid type-of `'number'`, because this is commonly problematic `'NaN'` is returned instead.
 - `'objectObject'` is always returned as `'object'` for simplicity.
-- `null` is returned as a string of it's self since` typeof null // object` is a historial mistake.
+- `null` is returned as `"null"` as` typeof null // object` is known as a mistake.
 - `'empty'` and `'zero'` also check for non-existence.
 
 MIT (c) 2017 Julien Etienne.
