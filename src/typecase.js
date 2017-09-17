@@ -1,5 +1,6 @@
 // https://github.com/julienetie/typecase
-// A type helper library for managing all types.
+// (c) Julien Etienne 2017
+// A type checker for dynamically typed JavaScript
 // @Update comments, 
 function type(...values) {
   const value  = values[0];
