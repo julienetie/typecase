@@ -153,7 +153,7 @@ For everything else kind-of type related, the native language should be more tha
 
 - Although `NaN` is an invalid type-of `'number'`, because this is commonly problematic `'NaN'` is returned instead.
 - `'objectObject'` is always returned as `'object'` for simplicity.
-- `null` is returned as `"null"` as` typeof null // object` is known as a mistake.
+- `null` is returned as `"null"` since `typeof null // object` is a mistake.
 - `'empty'` and `'zero'` also check for non-existence.
 
 MIT (c) 2017 Julien Etienne.
