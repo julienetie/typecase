@@ -98,14 +98,12 @@ type(document.body).objectHTMLBodyElement                   // true | undefined
 ...And so on.
 ```
 
-# Multiple types
-
-## .some
+## .some()
 Returns true if at least one of the types validate as expected. If not returns false.
 ```javascript
 type([value, value, value, value]).some(['string','objectDate','true','false'])
 ```
-## .every
+## .every()
 Returns true if all types validate as expected. If not returns false.
 ```javascript
 type([value, value, value, value]).every(['string','objectDate','true','false'])
