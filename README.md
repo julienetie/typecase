@@ -108,12 +108,14 @@ type(value, value, value, value).some('string','objectDate', 'number', 'array')
 
 type(value, value, value, value, value, value).some('string','objectDate')
 ```
+
 ## .every()
 Returns true if all types validate as expected. If not returns false.
 Values and expectedTypes must be of equal length.
 ```javascript
-type([value, value, value, value]).every(['string','objectDate','true','false'])
+type(value, value, value, value).every('string','objectDate','true','false')
 ```
+
 ## .is
 Reveals the type as a string.
 ```javascript
@@ -134,7 +136,7 @@ This library does not check if a value is an instance of another, use the instan
 ```javascript 
 someDOMElement instanceof Element // true
 ```
-Alternatively..
+Alternatively (type check only)
 ```javascript 
  type(someDOMElement).is.includes('Element') // true
 ```
