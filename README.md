@@ -134,7 +134,7 @@ Alternatively..
 ```
 
 
-typecase does not aim to tell you the specific "type" of sub-object it may contain,
+Typecase does not aim to tell you the specific "type" of sub-object it may contain,
 this is usually not important since you would likely need to check for 
 existing properties, and if not then native properties will be sufficient.
 
