@@ -1,7 +1,7 @@
 # Typecase
 <img src="http://oi63.tinypic.com/4j2544.jpg" width="300" text-align="center">
 
-Typecase Is a tiny but powerful library that aims to provide a useful type of a given value. It is intended for standard dynamically typed JavaScript.
+Typecase aims to provide a useful type of a given value. It is intended for standard dynamically typed JavaScript.
 
 Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between different types from the perspective of the JavaScript language and common usage rather than other static typed languages.
 
@@ -19,18 +19,18 @@ type(value).false // true | false
 
 ## .exist
 ```javascript
-// Value is not null and not undefined.
+// Value is neither null nor undefined.
 type(value).exist // OR !type(value).exist
 
 ```
 ## .empty
 ```javascript
-// Value is not null, not undefined and not an emppty string ''.
+// Value is null, undefined or an emppty string ''.
 type(value)empty // OR !type(value).empty
 ```
 ## .zero
 ```javascript
-// Value is not null, not undefined and not equal to 0.
+// Value is null, undefined or equal to 0.
 type(value).zero // OR !type(value).zero
 ```
 
