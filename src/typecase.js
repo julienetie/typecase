@@ -2,9 +2,25 @@
 // (c) Julien Etienne 2017
 // A type checker for dynamically typed JavaScript
 
+
+const assignErrorHandlers = (commonTypes, typeOfValue, errorHandlers, value) => {
+    const errorTypes = {};
+
+    Object.keys(commonTypes).forEach(errorType => {
+        if (errorType !== typeOfValue) {
+            Object.defineProperty(errorTypes, errorType, { get: errorHandlers[typeOfValue] });
+        }
+    });
+
+    errorTypes[typeOfValue] = value;
+    return errorTypes;
+}
+
+
 const main = (typeIf, config) => {
     const configIsAnObject = typeof config === 'object';
     const errorHandlers = configIsAnObject ? config.errorHandlers : {};
+    const debug = configIsAnObject ? config.debug : false;
 
     const type = (...values) => {
         const value = values[0];
@@ -63,17 +79,17 @@ const main = (typeIf, config) => {
                 const allValuesMatch = values.every((value, i) => type(value)[expectedTypes[i]]);
                 const hasEveryErrorHandler = errorHandlers.hasOwnProperty('every');
 
-                if(typeIf && allValuesMatch){
-                  return values;
+                if (typeIf && allValuesMatch) {
+                    return values;
                 }
 
-                if(typeIf && !allValuesMatch && hasEveryErrorHandler){
-                  errorHandlers.every();
-                  return [];
+                if (typeIf && !allValuesMatch && hasEveryErrorHandler) {
+                    errorHandlers.every();
+                    return [];
                 }
 
-                if(typeIf && !allValuesMatch && !hasEveryErrorHandler){
-                  return [];
+                if (typeIf && !allValuesMatch && !hasEveryErrorHandler) {
+                    return [];
                 }
 
                 return allValuesMatch;
@@ -86,22 +102,21 @@ const main = (typeIf, config) => {
                     const someValuesMatch = type(value)[expectedTypes[i]];
                     const hasSomeErrorHandler = errorHandlers.hasOwnProperty('some');
 
-                    if(typeIf && someValuesMatch){
-                      return values;
+                    if (typeIf && someValuesMatch) {
+                        return values;
                     }
 
-                    if(typeIf && !someValuesMatch && hasSomeErrorHandler){
-                      errorHandlers.some();
-                      return [];
+                    if (typeIf && !someValuesMatch && hasSomeErrorHandler) {
+                        errorHandlers.some();
+                        return [];
                     }
 
-                    if(typeIf && !someValuesMatch && !hasEveryErrorHandler){
-                      return [];
+                    if (typeIf && !someValuesMatch && !hasEveryErrorHandler) {
+                        return [];
                     }
 
                     return someValuesMatch;
                 });
-                //console.log(expectedTypes);
             }
         } : {};
 
@@ -127,7 +142,7 @@ const main = (typeIf, config) => {
             const numberWrapper = {};
             isValue.is = typeOfNumber;
             numberWrapper[typeOfNumber] = true;
-            const typeIfConfig = Object.assign({},errorHandlers, { number: value });
+            const typeIfConfig = assignErrorHandlers(commonTypes, typeOfNumber, errorHandlers, value);
             return typeIf ? typeIfConfig : assign(numberWrapper);
         }
 
@@ -139,7 +154,7 @@ const main = (typeIf, config) => {
             commonTypes[typeOfValue] = true;
             const wrapper = {};
             wrapper[typeOfValue] = value;
-            const typeIfConfig = Object.assign({},errorHandlers, wrapper);
+            const typeIfConfig = assignErrorHandlers(commonTypes, typeOfValue, errorHandlers, value);
             return typeIf ? typeIfConfig : assign(commonTypes);
         }
 
@@ -151,7 +166,7 @@ const main = (typeIf, config) => {
             const nullString = valueType.valueOf();
             isValue.is = nullString;
             valueType[nullString] = true;
-            const typeIfConfig = Object.assign({},errorHandlers, { null: value });
+            const typeIfConfig = assignErrorHandlers(commonTypes,'null', errorHandlers, value);
             return typeIf ? typeIfConfig : assign(valueType);
         }
 
@@ -161,7 +176,7 @@ const main = (typeIf, config) => {
             const arrayWrapper = {};
             isValue.is = 'array';
             arrayWrapper.array = true;
-            const typeIfConfig = Object.assign({},errorHandlers, { array: value });
+            const typeIfConfig = assignErrorHandlers(commonTypes, 'array', errorHandlers, value);
             return typeIf ? typeIfConfig : assign(arrayWrapper);
         }
 
@@ -182,7 +197,7 @@ const main = (typeIf, config) => {
         if (objectType === 'objectRegExp') {
             isValue.is = 'regExp';
             objectWrapper.regExp = true;
-            const typeIfConfig = Object.assign({},errorHandlers, { regExp: value });          
+            const typeIfConfig = assignErrorHandlers(commonTypes, 'regExp', errorHandlers, value);
             return typeIf ? typeIfConfig : assign(objectWrapper);
         }
 
@@ -193,7 +208,7 @@ const main = (typeIf, config) => {
         objectWrapper[objectParam] = true;
         const wrapper = {};
         wrapper[objectParam] = value;
-        const typeIfConfig = Object.assign({},errorHandlers, wrapper);        
+        const typeIfConfig = assignErrorHandlers(commonTypes, objectParam, errorHandlers, value);
         return typeIf ? typeIfConfig : assign(objectWrapper);
     }
     return type;
@@ -205,13 +220,13 @@ const type = (...values) => main(false, false)(...values);
 type.if = (...values) => main(true, false)(...values);
 
 // Config setups for type and type.if functions.
-const typeCase = config => {
-    const typeCase = (...values) => main(false, config)(...values);
-    typeCase.if = (...values) => main(true, config)(...values);
-    return typeCase;
+const typecase = config => {
+    const typecase = (...values) => main(false, config)(...values);
+    typecase.if = (...values) => main(true, config)(...values);
+    return typecase;
 }
 
 export {
-  type,
-  typeCase
+    type,
+    typecase
 };
