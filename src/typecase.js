@@ -19,7 +19,7 @@ const assignErrorHandlers = (commonTypes, typeOfValue, errorHandlers, value) => 
 
 const main = (typeIf, config) => {
     const configIsAnObject = typeof config === 'object';
-    const errorHandlers = configIsAnObject ? config.errorHandlers : {};
+    const errorHandlers = configIsAnObject && config.errorHandlers ? config.errorHandlers : {};
     const debug = configIsAnObject ? config.debug : false;
 
     const type = (...values) => {
@@ -215,16 +215,12 @@ const main = (typeIf, config) => {
 }
 
 
-// Standard type and type.if functions without config.
+// Standard type and If functions without config.
 const type = (...values) => main(false, false)(...values);
-type.if = (...values) => main(true, false)(...values);
+// type.if = (...values) => main(true, false)(...values);
 
 // Config setups for type and type.if functions.
-const typecase = config => {
-    const typecase = (...values) => main(false, config)(...values);
-    typecase.if = (...values) => main(true, config)(...values);
-    return typecase;
-}
+const typecase = config => (...values) => main(true, config)(...values);
 
 export {
     type,

@@ -14,12 +14,6 @@ test('type: Should be a function.', t => {
     t.equal(typeof type, 'function');
 });
 
-test('type: Should Contain the if method.', t => {
-    t.plan(1);
-    t.equal(typeof type.if, 'function');
-});
-
-
 /** 
  * true
  */
