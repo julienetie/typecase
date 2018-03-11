@@ -5,7 +5,18 @@ _en-GB_
 Typecase aims to provide a useful type of a given value. It is intended for standard dynamically typed JavaScript.
 
 Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between different types from the perspective of the JavaScript language and common usage rather than other [statically typed languages](https://stackoverflow.com/questions/1517582/what-is-the-difference-between-statically-typed-and-dynamically-typed-languages).
-# Use
+
+## Why
+- It's JavaScript (No extra compiling, no local software setup).		
+- Ideal for both lower and higher level development.		
+- Covers a range of commonly used types as well as dynamic types e.g. objectHTMLBodyElement.		
+- Type checking syntax for single return values (pure functions)		
+- Assign callbacks for various types - TBA		
+- Option to toggle between debug/prod mode (Similar to Object.freeze usage) - TBA 		
+- Typecase serves as a type-checker but can be toggled as a function wrapper that simply returns a given value.		
+		
+
+## Install
 ```bash
 npm install typecase;
 ```
@@ -13,7 +24,7 @@ npm install typecase;
 ```javascript
 import {type, typecase} from 'typecase';
 ```
-
+---
 
 ## .true
 ```javascript
@@ -138,6 +149,38 @@ Reveals the raw object class.
 type(null).class // "[object Null]"
 type(NaN).class // "[object Number]"
 ```
+## typecase() 
+
+**typecase** serves as a type-checker but can be toggled as a function wrapper that simply returns a given value.
+
+```javascript
+// Check a type
+import {type, typecase} from 'typecase'
+
+	const greeting = 'Hello World!';
+if(type(greeting).string){
+	console.log(greeting)
+}
+
+// Return the correct type or throw an error
+const If = typecase({
+				errorHandlers:{
+					objectDate: function(value, type){throw new TypeError(`${value} is not of type ${type}`)}
+				},
+				silence: false, // Silence callbacks
+				debug: true     // If false will parse all types without checks
+			})
+
+const someFunction = (value)=>{
+	value = 2000  // Oh no
+	return If(value).objectDate
+}
+const newDate = new Date()
+someFunction(newDate) // Throws error
+
+
+```
+
 
 ## What this library is not
 
