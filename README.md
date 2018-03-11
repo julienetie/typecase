@@ -1,9 +1,19 @@
+_en-GB_
 # Typecase
 <img src="http://oi63.tinypic.com/4j2544.jpg" width="300" text-align="center">
 
 Typecase aims to provide a useful type of a given value. It is intended for standard dynamically typed JavaScript.
 
-Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between different types from the perspective of the JavaScript language and common usage rather than other static typed languages.
+Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between different types from the perspective of the JavaScript language and common usage rather than other [statically typed languages](https://stackoverflow.com/questions/1517582/what-is-the-difference-between-statically-typed-and-dynamically-typed-languages).
+# Use
+```bash
+npm install typecase;
+```
+
+```javascript
+import {type, typecase} from 'typecase';
+```
+
 
 ## .true
 ```javascript
@@ -36,7 +46,7 @@ type(value).zero // OR !type(value).zero
 
 ## Types
 typecase allows you to see types for what they are. When applicable, 
-the object wrapper is shown by the prefix 'object'. Non standard types
+the object wrapper is shown by the prefix 'object'. Less common type classes
 (such as elements) will return undefined if the value is falsy. All other
 types return boolean values.
 
@@ -122,11 +132,11 @@ Reveals the type as a string.
 type(10000).is // "number"
 ```
 
-## .raw (TBA)
-Reveals the raw object-type without sugar coating as a string.
+## .class (TBA)
+Reveals the raw object class.
 ```javascript
-type(null).raw // "[object Null]"
-type(NaN).raw // "[object Number]"
+type(null).class // "[object Null]"
+type(NaN).class // "[object Number]"
 ```
 
 ## What this library is not
@@ -146,7 +156,7 @@ Typecase does not aim to tell you the specific "type" of sub-object it may conta
 this is usually not important since you would likely need to check for 
 existing properties, and if not then native properties will be sufficient.
 
-For everything else kind-of type related, the native language should be more than sufficient.
+For everything else kind-of type related, the native language will be sufficient.
 
 ## Explanations.
 - Although `Array` is an object `'array'` is returned rather than `'objectArray'` because it is not an intended object for `Object` use unlike i.e. `new Boolean()`. The same applies to RegExp.
@@ -156,4 +166,7 @@ For everything else kind-of type related, the native language should be more tha
 - `null` is returned as `"null"` since `typeof null // object` is a mistake.
 - `'empty'` and `'zero'` also check for non-existence.
 
-MIT (c) 2017 Julien Etienne.
+- Typecase uses the most appropriate method for checking a type to be more inlline with compiler optimisations at runtime. Despite this consideration, it's alway best to [use typeof where feasible](https://medium.com/@julienetienne/is-javascript-trash-part-1-5310ac4e20d0#b6da).
+
+
+MIT (c) 2018 Julien Etienne.
