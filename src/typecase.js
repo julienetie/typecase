@@ -71,7 +71,7 @@ const main = (typeIf, config) => {
 
 
         // Methods to expose for mulit values.
-        const methods = values.length > 1 ? {
+        const methods = {
             every(...expectedTypes) {
                 if (values.length !== expectedTypes.length) {
                     console.error('typecase type(): Values and expectedTypes must be of equal length');
@@ -118,7 +118,7 @@ const main = (typeIf, config) => {
                     return someValuesMatch;
                 });
             }
-        } : {};
+        };
 
 
         // Writes value/s over defaults.

@@ -1,9 +1,51 @@
 # Typecase
 <img src="http://oi63.tinypic.com/4j2544.jpg" width="300" text-align="center">
 
-Typecase aims to provide a useful type of a given value. It is intended for standard dynamically typed JavaScript.
+Typecase is a type-checking library for standard dynamically typed JavaScript.
+Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you understand it thoroughly.
+Typecase handels types from the perspective of the native JavaScript language and common usage rather than attemptiong to emulate static typed languages.
 
-Types seem to be a commonly misunderstood subject in the world of JavaScript and can sometimes be difficult to manage even if you do understand it well. Typecase differentiates between different types from the perspective of the JavaScript language and common usage rather than other static typed languages.
+This means: 
+
+- It's JavaScript (No extra compiling, no local software setup).
+- Ideal for both lower and higher level development.
+- Covers a range of commonly used types as well as dynamic types e.g. objectHTMLBodyElement.
+- Can use mulit and global configurations. 
+- Type checking syntax for single return values (pure functions)
+- Assign callbacks for various types.
+- Option to toggle debug/prod mode.
+
+Typecase serves as a type-checker but can be toggled as a function wrapper that simply returns a given value.
+
+How it works:
+```javascript
+// Check a type
+import {type, typecase} from 'typecase'
+
+	const greeting = 'Hello World!';
+if(type(greeting).string){
+	console.log(greeting)
+}
+
+// Return the correct type or throw an error
+const If = typecase({
+				errorHandlers:{
+					objectDate: function(value, type){throw new TypeError(`${value} is not of type ${type}`)}
+				},
+				silence: false, // Silence callbacks
+				debug: true     // If false will parse all types without checks
+			})
+
+const someFunction = (value)=>{
+	value = 2000  // Oh no
+	return If(value).objectDate
+}
+const newDate = new Date()
+someFunction(newDate) // Throws error
+
+
+```
+
 
 ## .true
 ```javascript
