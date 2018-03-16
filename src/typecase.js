@@ -1,5 +1,5 @@
 // https://github.com/julienetie/typecase
-// (c) Julien Etienne 2017
+// (c) Julien Etienne 2018
 // A type checker for dynamically typed JavaScript
 
 
@@ -20,7 +20,7 @@ const assignErrorHandlers = (commonTypes, typeOfValue, errorHandlers, value) => 
 const main = (typeIf, config) => {
     const configIsAnObject = typeof config === 'object';
     const errorHandlers = configIsAnObject && config.errorHandlers ? config.errorHandlers : {};
-    const debug = configIsAnObject ? config.debug : false;
+    // const debug = configIsAnObject ? config.debug : false;
 
     const type = (...values) => {
         const value = values[0];
@@ -101,6 +101,7 @@ const main = (typeIf, config) => {
                     }
                     const someValuesMatch = type(value)[expectedTypes[i]];
                     const hasSomeErrorHandler = errorHandlers.hasOwnProperty('some');
+                    const hasEveryErrorHandler = errorHandlers.hasOwnProperty('every');
 
                     if (typeIf && someValuesMatch) {
                         return values;
@@ -186,7 +187,7 @@ const main = (typeIf, config) => {
         // Simplifies objectObject as object.
         const objectType = objectTypeDefinition
             .slice(0, objectTypeDefinition.length - 1)
-            .replace(/[\[\]\s]/g, '');
+            .replace(/[[\]\s]/g, '');
 
 
         // An empty object to challenge the existing defaults.
