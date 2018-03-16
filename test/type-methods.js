@@ -3,10 +3,7 @@ import { type } from '../src/typecase';
 
 
 // Each type is tested with a value that should pass true & false.
-const number = 8;
 const string = 'foo';
-const noop = function() {};
-const arrowNoop = () => {};
 
 
 test('type: Should be a function.', t => {
@@ -90,19 +87,24 @@ test('type: zero', t => {
 test('type: every', t => {
     t.plan(2);
 
-    const values1 = type(
+    const params = [
         1000,
-        'Hello World', [1, 2, 3],
+        'Hello World', [
+            1,
+            2,
+            3
+        ],
         new Boolean(),
-        () => {}
-    ).every('number', 'string', 'array', 'objectBoolean', 'function')
+        () => { return null; }
+    ];
+
+    const values1 = type(
+        ...params
+    ).every('number', 'string', 'array', 'objectBoolean', 'function');
 
     const values2 = type(
-        1000,
-        'Hello World', [1, 2, 3],
-        new Boolean(),
-        () => {}
-    ).every('number', 'string', 'array', 'boolean', 'function')
+        ...params
+    ).every('number', 'string', 'array', 'boolean', 'function');
 
     t.equal(values1, true);
     t.equal(values2, false);
@@ -124,20 +126,20 @@ test('type: some', t => {
 
     // All are equal consecutively
     const values1 = type(...valuesToMatch)
-    .some('number', 'string', 'array', 'objectBoolean', 'function')
+        .some('number', 'string', 'array', 'objectBoolean', 'function');
 
     // One is equal consecutively
     const values2 = type(...valuesToMatch)
-    .some('number', 'regExp', 'regExp', 'regExp', 'objectBoolean')
+        .some('number', 'regExp', 'regExp', 'regExp', 'objectBoolean');
 
     // Two are equal consecutively
     const values3 = type(...valuesToMatch)
-    .some('number', 'regExp', 'objectBoolean', 'regExp', 'objectDate')
+        .some('number', 'regExp', 'objectBoolean', 'regExp', 'objectDate');
 
 
     // None are equal consecutively
     const values4 = type(...valuesToMatch)
-    .some('object', 'regExp', 'object', 'object', 'regExp')
+        .some('object', 'regExp', 'object', 'object', 'regExp');
 
     t.equal(values1, true);
     t.equal(values2, true);
@@ -146,23 +148,23 @@ test('type: some', t => {
 
     // All are equal 
     const values5 = type(...valuesToMatch)
-    .some('number', 'string', 'array', 'objectBoolean')
+        .some('number', 'string', 'array', 'objectBoolean');
 
     // One is equal
     const values6 = type(...valuesToMatch)
-    .some('regExp', 'regExp', 'number', )
+        .some('regExp', 'regExp', 'number');
 
     // Two are equal
     const values7 = type(...valuesToMatch)
-    .some('objectBoolean', 'regExp', 'function', 'regExp')
+        .some('objectBoolean', 'regExp', 'function', 'regExp');
 
     // Two are equal beyond length
     const values8 = type(...valuesToMatch)
-    .some('objectBoolean', 'regExp', 'regExp', 'regExp', 'regExp', 'regExp', 'function')
+        .some('objectBoolean', 'regExp', 'regExp', 'regExp', 'regExp', 'regExp', 'function');
 
     // None are equal
     const values9 = type(...valuesToMatch)
-    .some('object', 'regExp', 'object', 'regExp')
+        .some('object', 'regExp', 'object', 'regExp');
 
     t.equal(values5, true);
     t.equal(values6, true);
@@ -177,7 +179,7 @@ test('type: some', t => {
  */
 test('type: is', t => {
     t.plan(3);
-    t.equal(type(8).is === 'number',true);
+    t.equal(type(8).is === 'number', true);
     t.equal(type(8).is === 'string', false);
     t.equal(type(8).is === 'object', false);
 });
@@ -188,7 +190,7 @@ test('type: is', t => {
  */
 test('type: raw', t => {
     t.plan(3);
-    t.equal(type(8).raw , '[object Number]');
+    t.equal(type(8).raw, '[object Number]');
     t.equal(type('Hello World!').raw, '[object String]');
-    t.equal(type({}).raw , '[object Object]');
+    t.equal(type({}).raw, '[object Object]');
 });
